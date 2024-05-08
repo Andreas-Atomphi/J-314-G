@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>HTML, CSS and JavaScript demo</title>
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <script type="text/javascript" src="./js/pi.js" defer></script>
+    <script type="text/javascript" src="./js/script.js" defer></script>
+  </head>
+  <body>
+    <div style="text-align: center;">
+            <h1>PI image decoder</h1>
+    </div>
+    <div class="content">
+      <canvas id="p-canvas" width="720" height="405" class="centered"></canvas>
+      <div
+        class="centered"
+        style="align-items: center; justify-content: center; text-align: center"
+      >
+        <input
+          type="button"
+          value="<100"
+          onclick="offsetMan.changeOffsetBy(-100)"
+        />
+        <input
+          type="button"
+          value="<50"
+          onclick="offsetMan.changeOffsetBy(-50)"
+        />
+        <input
+          type="button"
+          value="<10"
+          onclick="offsetMan.changeOffsetBy(-10)"
+        />
+        <input type="button" value="<" onclick="offsetMan.changeOffsetBy(-1)" />
+        <input
+          type="text"
+          value="0"
+          id="offset-view"
+          style="text-align: center"
+        />
+        <input type="button" value=">" onclick="offsetMan.changeOffsetBy(1)" />
+        <input
+          type="button"
+          value=">10"
+          onclick="offsetMan.changeOffsetBy(10)"
+        />
+        <input
+          type="button"
+          value=">50"
+          onclick="offsetMan.changeOffsetBy(50)"
+        />
+        <input
+          type="button"
+          value=">100"
+          onclick="offsetMan.changeOffsetBy(100)"
+        />
+      </div>
+    </div>
+  </body>
+</html>

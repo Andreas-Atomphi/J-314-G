@@ -1,0 +1,36 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100vw;
+}
+
+#p-canvas {
+  background-color: #ccc;
+}
+
+.centered {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.content {
+  width: 100%;
+}
+
+.centered input {
+  display: inline-flex;
+}
+
+.centered input[type="button"] {
+  background-color: #ccc;
+  border: none;
+  font-size: 2.5rem;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  color: #333;
+}
