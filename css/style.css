@@ -1,15 +1,31 @@
 html,
 body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin: 0;
     padding: 0;
 }
 
 body {
     width: 100vw;
+    background-color: #666;
 }
 
 #p-canvas {
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -o-crisp-edges;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
     background-color: #ccc;
+    min-width: 700px;
+    border-width: 10px;
+    border-style: solid;
+    border-top-color: #888;
+    border-left-color: #bbb;
+    border-right-color: #999;
+    border-bottom-color: #ddd;
 }
 
 #canvas-container {
@@ -19,31 +35,31 @@ body {
 }
 
 .loading-overlay {
-    position:absolute;
+    position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    opacity: 1.0;
+    opacity: 1;
     transition-property: opacity;
     transition-duration: 0.5s;
 }
 
-.lds-roller{
+.lds-roller {
     position: absolute !important;
-    display:flex !important;
+    display: flex !important;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
 }
 
-.lds-roller div:after{
+.lds-roller div:after {
     background-color: #fff !important;
-} 
+}
 
 .animated-invisible {
-    opacity: 0.0;
+    opacity: 0;
     transition-duration: 0.5s;
 }
 
@@ -51,6 +67,12 @@ body {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.centered-content {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .content {
@@ -82,8 +104,34 @@ body {
     color: #444;
 }
 
+.setting-input {
+    font-size: 1rem;
+}
+
+.input-text {
+    border-radius: 0.5rem;
+    border: 2px #bbb solid;
+}
+
+.label {
+    color: white;
+}
+
 #offset-view {
     font-size: 2.5rem;
-    border-radius: 0.5rem;
     color: #333;
+    text-align: center;
+    /*width: 100%;*/
+}
+
+#pi-symbol::before {
+    content: "\03C0";
+}
+
+#pi-symbol {
+    font-family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif";
+    font-size: 3rem;
+    padding: 0;
+    margin: 0;
+    color:white;
 }
