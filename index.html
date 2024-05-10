@@ -14,27 +14,13 @@
         <script type="text/javascript" src="./js/script.js" defer></script>
     </head>
     <body>
-        <div style="text-align: center; color: white;">
+        <header>
             <h1>J<span id="pi-symbol"></span>G</h1>
-        </div>
-        <div class="centered centered-content">
-            <label for="width-setting" class="label">Width</label>
-            <input
-                type="number"
-                id="width-setting"
-                class="setting-input input-text"
-            />
-            <label for="height-setting" class="label">Height</label>
-            <input
-                type="number"
-                id="height-setting"
-                class="setting-input input-text"
-            />
-        </div>
+        </header>
         <div style="height: 15px"></div>
         <div class="content">
             <div id="canvas-container" class="centered">
-                <canvas id="p-canvas"></canvas>
+                <canvas id="p-canvas" width="480" height="270"></canvas>
                 <div class="loading-overlay animated-invisible">
                     <div class="lds-roller">
                         <div></div>
@@ -50,6 +36,23 @@
             </div>
             <div style="height: 30px"></div>
             <div class="centered centered-content">
+                <label for="width-setting" class="label">Width</label>
+                <input
+                    type="number"
+                    max="5"
+                    id="width-setting"
+                    class="setting-input input-text"
+                />
+                <label for="height-setting" class="label">Height</label>
+                <input
+                    type="number"
+                    id="height-setting"
+                    class="setting-input input-text"
+                />
+            </div>
+            <div style="height: 5px;"></div>
+            <div class="centered centered-content">
+                <label>Offset</label>
                 <input
                     type="number"
                     id="offset-view"

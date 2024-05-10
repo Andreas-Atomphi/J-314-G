@@ -6,7 +6,8 @@ function piFrag(idx, _x, _y) {
     const r = Math.round(255 * (parseInt(digits.substring(0, 3)) / 999));
     const g = Math.round(255 * (parseInt(digits.substring(3, 6)) / 999));
     const b = Math.round(255 * (parseInt(digits.substring(6, 9)) / 999));
-    return `rgb(${r}, ${g}, ${b})`;
+    return [r, g, b, 255];
+    //return `rgb(${r}, ${g}, ${b})`;
 }
 
 offsetMan.setDrawingMethod(piFrag);

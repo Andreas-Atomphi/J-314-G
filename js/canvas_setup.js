@@ -30,7 +30,7 @@ const piCanvas = (() => {
     const loadingOverlay = document.querySelector(".loading-overlay");
 
     /** @type {CanvasRenderingContext2D} */
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true, alpha: false });
 
     const setWidth = (value) => (canvas.width = value);
     const getWidth = () => canvas.width;
@@ -40,7 +40,7 @@ const piCanvas = (() => {
 
     /**
      * @function
-     * @param {Function(Number, Number, Number): String} callback
+     * @param {Function(Number, Number, Number): Array} callback
      * @param {{ x: number; y: number; }} [from={ x: 0, y: 0 }]
      * */
     function draw(callback, from = { x: 0, y: 0 }) {
@@ -57,17 +57,26 @@ const piCanvas = (() => {
         const currentOffset = offsetMan.getOffset();
         const startTime = performance.now();
 
+        const imageData = ctx.getImageData(0, 0, imageWidth, imageHeight);
+
         while (y < imageHeight) {
             while (x < imageWidth) {
                 if (currentOffset != offsetMan.getOffset()) {
                     ctx.clearRect(0, 0, imageWidth, imageHeight);
                     return;
                 }
-                ctx.fillStyle = callback(imageWidth * y + x, x, y);
-                ctx.fillRect(x, y, 1, 1);
+                let pixelIdx = (imageWidth * y + x);
+                const pixelData = callback(pixelIdx, x, y);
+                
+                pixelIdx *= 4;
+                imageData.data[pixelIdx] = pixelData[0];
+                imageData.data[pixelIdx + 1] = pixelData[1];
+                imageData.data[pixelIdx + 2] = pixelData[2];
 
-                if (performance.now() - startTime > 30) {
-                    return setTimeout(() => draw(callback, { x, y }), 30);
+                if (performance.now() - startTime > 200) {
+                    setTimeout(() => draw(callback, { x, y }), 20);
+                    ctx.putImageData(imageData, 0, 0);
+                    return 
                 }
 
                 x++;
@@ -75,7 +84,7 @@ const piCanvas = (() => {
             x = 0;
             y++;
         }
-
+        ctx.putImageData(imageData, 0, 0);
         loadingOverlay.classList.add("animated-invisible");
     }
 

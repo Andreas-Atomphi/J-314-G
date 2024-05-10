@@ -7,42 +7,28 @@ body {
 
 body {
     width: 100vw;
-    background-color: #666;
+    background-color: #fff;
 }
 
-#p-canvas {
-    image-rendering: optimizeSpeed;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: -o-crisp-edges;
-    image-rendering: crisp-edges;
-    image-rendering: pixelated;
-    -ms-interpolation-mode: nearest-neighbor;
-    background-color: #ccc;
-    min-width: 700px;
-    border-width: 10px;
-    border-style: solid;
-    border-top-color: #888;
-    border-left-color: #bbb;
-    border-right-color: #999;
-    border-bottom-color: #ddd;
-}
-
-#canvas-container {
-    padding: 0;
-    height: min-content;
-    width: min-content;
+header {
+    display: inline-flex;
+    width: 100%;
+    background-color: #ededed;
+    text-align: center;
+    justify-content: center;
+    top: 0;
 }
 
 .loading-overlay {
     position: absolute;
+    display: block;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
+    padding: 0;
+    margin: 0;
     background-color: rgba(0, 0, 0, 0.7);
-    opacity: 1;
-    transition-property: opacity;
     transition-duration: 0.5s;
 }
 
@@ -52,6 +38,8 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 0;
 }
 
 .lds-roller div:after {
@@ -84,9 +72,9 @@ body {
 }
 
 .button {
-    font-size: 2.5rem;
+    font-size: 2rem;
     border-radius: 0.5rem;
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: #ccc;
     border: 2px #aaa solid;
     color: #333;
@@ -106,6 +94,7 @@ body {
 
 .setting-input {
     font-size: 1rem;
+    width: 6em;
 }
 
 .input-text {
@@ -114,11 +103,11 @@ body {
 }
 
 .label {
-    color: white;
+    color: #000;
 }
 
 #offset-view {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: #333;
     text-align: center;
     /*width: 100%;*/
@@ -133,5 +122,32 @@ body {
     font-size: 3rem;
     padding: 0;
     margin: 0;
-    color:white;
+    color: #000;
+}
+
+#p-canvas {
+    display: block;
+    min-width: 800px;
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -o-crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+#canvas-container {
+    height: min-content;
+    width: min-content;
+    padding: 0;
+    margin: 0;
+    border-width: 20px;
+    border-style: solid;
+    border-top-color: #999;
+    border-left-color: #ccc;
+    border-right-color: #bbb;
+    border-bottom-color: #eee;
 }
