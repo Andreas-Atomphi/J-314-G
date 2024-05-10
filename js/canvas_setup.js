@@ -1,15 +1,13 @@
 /** @type {{function(BigInt):void, function(BigInt):void, function():BigInt, function():void}} */
 const offsetMan = (() => {
     let offset = 0n;
-    let drawingMethod;
-    const changeOffsetBy = (value) => setOffset(offset + BigInt(value));
+    const changeOffsetBy = (value, fromView = false) => setOffset(((fromView == false) ? offset : BigInt(offsetView.value)) + BigInt(value));
     const getOffset = () => offset;
-    const setDrawingMethod = (callback) => (drawingMethod = callback);
     function setOffset(value) {
         if (!piCanvas.isAvailable()) return;
         offset = BigInt(value);
         offsetView.value = offset;
-        piCanvas.refresh(drawingMethod);
+        piCanvas.refresh();
     }
     /** @type {HTMLInputElement}*/
     const offsetView = document.querySelector("#offset-view");
@@ -18,7 +16,6 @@ const offsetMan = (() => {
         changeOffsetBy,
         getOffset,
         setOffset,
-        setDrawingMethod,
     };
 })();
 
@@ -30,20 +27,38 @@ const piCanvas = (() => {
     const loadingOverlay = document.querySelector(".loading-overlay");
 
     /** @type {CanvasRenderingContext2D} */
-    const ctx = canvas.getContext("2d", { willReadFrequently: true, alpha: false });
+    const ctx = canvas.getContext("2d", {
+        willReadFrequently: true,
+        alpha: false,
+    });
 
     const setWidth = (value) => (canvas.width = value);
     const getWidth = () => canvas.width;
 
     const setHeight = (value) => (canvas.height = value);
     const getHeight = () => canvas.height;
+    
+    /** @type {Function(Number, [Number, Number]): Color} */
+    let drawingMethod;
 
     /**
      * @function
-     * @param {Function(Number, Number, Number): Array} callback
+     * @param {Function(Number, Number, Number): Color}
+     * @returns {void}
+     */
+    const setDrawingMethod = (callback) => (drawingMethod = callback);
+
+    /**
+     * @function 
+     * @returns {Function(Number, Number, Number):Color}
+     * */
+    const getDrawingMethod = () => drawingMethod;
+
+    /**
+     * @function
      * @param {{ x: number; y: number; }} [from={ x: 0, y: 0 }]
      * */
-    function draw(callback, from = { x: 0, y: 0 }) {
+    function draw(from = { x: 0, y: 0 }) {
         const imageWidth = getWidth();
         const imageHeight = getHeight();
 
@@ -65,18 +80,17 @@ const piCanvas = (() => {
                     ctx.clearRect(0, 0, imageWidth, imageHeight);
                     return;
                 }
-                let pixelIdx = (imageWidth * y + x);
-                const pixelData = callback(pixelIdx, x, y);
-                
+                let pixelIdx = imageWidth * y + x;
+                const pixelColor = drawingMethod(pixelIdx, x, y);
                 pixelIdx *= 4;
-                imageData.data[pixelIdx] = pixelData[0];
-                imageData.data[pixelIdx + 1] = pixelData[1];
-                imageData.data[pixelIdx + 2] = pixelData[2];
+                imageData.data[pixelIdx] = pixelColor.r;
+                imageData.data[pixelIdx + 1] = pixelColor.g;
+                imageData.data[pixelIdx + 2] = pixelColor.b;
 
                 if (performance.now() - startTime > 200) {
-                    setTimeout(() => draw(callback, { x, y }), 20);
+                    setTimeout(() => draw({ x, y }), 20);
                     ctx.putImageData(imageData, 0, 0);
-                    return 
+                    return;
                 }
 
                 x++;
@@ -98,9 +112,9 @@ const piCanvas = (() => {
      *  @param {Function(Number, Number, Number):String}
      *  @returns{void}
      * */
-    function refresh(callback) {
+    function refresh() {
         ctx.clearRect(0, 0, getWidth(), getHeight());
-        draw(callback);
+        draw();
     }
 
     ctx.imageSmoothingEnabled = false;
@@ -115,5 +129,7 @@ const piCanvas = (() => {
         draw,
         isAvailable,
         refresh,
+        setDrawingMethod,
+        getDrawingMethod
     };
 })();

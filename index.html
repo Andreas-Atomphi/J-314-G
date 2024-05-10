@@ -4,7 +4,8 @@
         <title>J&pi;G</title>
         <link type="text/css" rel="stylesheet" href="css/style.css" />
         <link type="text/css" rel="stylesheet" href="css/indicator.css" />
-        <script type="text/javascript" src="./js/pi.js" defer></script>
+        <script type="text/javascript" src="./js/color.js" defer></script>
+        <script type="text/javascript" src="./js/pi_fetch.js" defer></script>
         <script type="text/javascript" src="./js/utils.js" defer></script>
         <script
             type="text/javascript"
@@ -20,7 +21,7 @@
         <div style="height: 15px"></div>
         <div class="content">
             <div id="canvas-container" class="centered">
-                <canvas id="p-canvas" width="480" height="270"></canvas>
+                <canvas id="p-canvas" width="160" height="90"></canvas>
                 <div class="loading-overlay animated-invisible">
                     <div class="lds-roller">
                         <div></div>
@@ -50,7 +51,7 @@
                     class="setting-input input-text"
                 />
             </div>
-            <div style="height: 5px;"></div>
+            <div style="height: 5px"></div>
             <div class="centered centered-content">
                 <label>Offset</label>
                 <input
@@ -65,49 +66,55 @@
                 <input
                     type="button"
                     value="<100"
-                    onclick="offsetMan.changeOffsetBy(-100)"
+                    onclick="offsetMan.changeOffsetBy(-100, true)"
                     class="button"
                 />
                 <input
                     type="button"
                     value="<50"
-                    onclick="offsetMan.changeOffsetBy(-50)"
+                    onclick="offsetMan.changeOffsetBy(-50, true)"
                     class="button"
                 />
                 <input
                     type="button"
                     value="<10"
-                    onclick="offsetMan.changeOffsetBy(-10)"
+                    onclick="offsetMan.changeOffsetBy(-10, true)"
                     class="button"
                 />
                 <input
                     type="button"
                     value="<"
-                    onclick="offsetMan.changeOffsetBy(-1)"
+                    onclick="offsetMan.changeOffsetBy(-1, true)"
+                    class="button"
+                />
+                <input
+                    type="button"
+                    value="&#10227;"
+                    onclick="offsetMan.changeOffsetBy(0, true)"
                     class="button"
                 />
                 <input
                     type="button"
                     value=">"
-                    onclick="offsetMan.changeOffsetBy(1)"
+                    onclick="offsetMan.changeOffsetBy(1, true)"
                     class="button"
                 />
                 <input
                     type="button"
                     value=">10"
-                    onclick="offsetMan.changeOffsetBy(10)"
+                    onclick="offsetMan.changeOffsetBy(10, true)"
                     class="button"
                 />
                 <input
                     type="button"
                     value=">50"
-                    onclick="offsetMan.changeOffsetBy(50)"
+                    onclick="offsetMan.changeOffsetBy(50, true)"
                     class="button"
                 />
                 <input
                     type="button"
                     value=">100"
-                    onclick="offsetMan.changeOffsetBy(100)"
+                    onclick="offsetMan.changeOffsetBy(100, true)"
                     class="button"
                 />
             </div>
