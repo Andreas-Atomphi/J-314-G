@@ -12,7 +12,7 @@ const piMan = (() => {
     const refreshPi = async () => {
         if (currentOffset == offsetMan.getOffset()) return pi;
         piCanvas.setAvailable(false);
-        const MAX_REQUEST_LENGTH = 996n;
+        const MAX_REQUEST_LENGTH = 1000n;
         currentOffset = offsetMan.getOffset();
         let remainingLength = BigInt(piLength);
         let requestOffset = currentOffset;
