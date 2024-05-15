@@ -4,15 +4,11 @@
         <title>J&pi;G</title>
         <link type="text/css" rel="stylesheet" href="css/style.css" />
         <link type="text/css" rel="stylesheet" href="css/indicator.css" />
-        <script type="text/javascript" src="./js/color.js" defer></script>
-        <script type="text/javascript" src="./js/utils.js" defer></script>
-        <script
-            type="text/javascript"
-            src="./js/canvas_setup.js"
-            defer
-        ></script>
-        <script type="text/javascript" src="./js/pi_fetch.js" defer></script>
-        <script type="text/javascript" src="./js/script.js" defer></script>
+        <script type="text/javascript" src="js/color.js" defer></script>
+        <script type="text/javascript" src="js/utils.js" defer></script>
+        <script type="text/javascript" src="js/canvas_setup.js" defer></script>
+        <script type="text/javascript" src="js/pi_man.js" defer></script>
+        <script type="text/javascript" src="js/script.js" defer></script>
     </head>
     <body>
         <header>
@@ -68,57 +64,57 @@
             <div class="centered centered-content">
                 <input
                     type="button"
-                    value="<100"
-                    onclick="offsetMan.changeOffsetBy(-100, true)"
-                    class="button"
+                    value="100<"
+                    data-offset-changer="-100"
+                    class="button offset-changer-button"
                 />
                 <input
                     type="button"
-                    value="<50"
-                    onclick="offsetMan.changeOffsetBy(-50, true)"
-                    class="button"
+                    value="50<"
+                    data-offset-changer="-50"
+                    class="button offset-changer-button"
                 />
                 <input
                     type="button"
-                    value="<10"
-                    onclick="offsetMan.changeOffsetBy(-10, true)"
-                    class="button"
+                    value="10<"
+                    data-offset-changer="-10"
+                    class="button offset-changer-button"
                 />
                 <input
                     type="button"
                     value="<"
-                    onclick="offsetMan.changeOffsetBy(-1, true)"
-                    class="button"
+                    data-offset-changer="-1"
+                    class="button offset-changer-button"
                 />
                 <input
                     type="button"
                     value="&#10227;"
-                    onclick="offsetMan.changeOffsetBy(0, true)"
+                    onclick="piMan.refresh()"
                     class="button"
                 />
                 <input
                     type="button"
                     value=">"
-                    onclick="offsetMan.changeOffsetBy(1, true)"
-                    class="button"
+                    data-offset-changer="1"
+                    class="button offset-changer-button"
                 />
                 <input
                     type="button"
                     value=">10"
-                    onclick="offsetMan.changeOffsetBy(10, true)"
-                    class="button"
+                    data-offset-changer="10"
+                    class="button offset-changer-button"
                 />
                 <input
                     type="button"
                     value=">50"
-                    onclick="offsetMan.changeOffsetBy(50, true)"
-                    class="button"
+                    data-offset-changer="50"
+                    class="button offset-changer-button"
                 />
                 <input
                     type="button"
                     value=">100"
-                    onclick="offsetMan.changeOffsetBy(100, true)"
-                    class="button"
+                    data-offset-changer="100"
+                    class="button offset-changer-button"
                 />
             </div>
         </div>
