@@ -1,21 +1,21 @@
 const BigMath = Object.freeze({
-    /** @function 
+    /** 
      * @param{bigint} value
      * @returns {bigint}
      * */
     abs(value) { return (value < 0n ? -value : value); },
-    /** @function 
+    /** 
      * @param{bigint} value
      * @returns {bigint}
      * */
     sign(value) { return (value === 0 ? 0n : value < 0n ? -1 : 1); },
-    /** @function 
+    /** 
      * @param{bigint} base
      * @param{bigint} exponent
      * @returns {bigint}
      * */
     pow(base, exponent) { return base ** exponent; },
-    /** @function 
+    /**
      * @param{bigint} value
      * @param{...bigint} values
      * @returns {bigint}
@@ -24,7 +24,7 @@ const BigMath = Object.freeze({
         for (const v of values) if (v < value) value = v;
         return value;
     },
-    /** @function 
+    /** 
      * @param{bigint} value
      * @param{...bigint} values
      * @returns {bigint}
@@ -36,15 +36,14 @@ const BigMath = Object.freeze({
 });
 
 /**
- * @function
- * @param {Number|BigInt} a
- * @param {Number|BigInt} b
+ * @param {number|bigint} a
+ * @param {number|bigint} b
  */
 const posmod = (a, b) => ((a % b) + b) % b;
 
-/** @function
- *  @param {String} text
- *  @param {Number} startIndex
+/**
+ *  @param {string} text
+ *  @param {number} startIndex
  * */
 Object.defineProperty(String.prototype, "cyclicSubstring", {
     value: function (startIndex, length) {

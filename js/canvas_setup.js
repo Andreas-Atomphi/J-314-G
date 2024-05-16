@@ -1,26 +1,3 @@
-/** @type {{HTMLInputElement, bigint}} */
-const offsetMan = (() => {
-
-    /** @type {bigint} */
-    let _offset = 0n;
-
-    /** @type {HTMLInputElement}*/
-    const offsetView = document.querySelector("#offset-view");
-    offsetView.addEventListener('change', () => (_offset = offsetView.value));
-
-    return {
-        offsetView,
-        set offset(value) {
-            if (!piCanvas.isAvailable()) return;
-            _offset = BigInt(value);
-            offsetView.value = _offset;
-            piMan.refreshPi().then(piCanvas.refresh);   
-        },
-        get offset() {
-            return _offset;
-        },
-    };
-})();
 
 const piCanvas = (() => {
     /** @type {HTMLCanvasElement} */
@@ -49,27 +26,20 @@ const piCanvas = (() => {
      */
     const updateDrawingMethod = (callback) => (_drawingMethod = callback);
 
-    /**
-     * @function
-     * @returns {void}
-     */
+    /** @returns {void} */
     function showLoading() {
         if (loadingOverlay.classList.contains("animated-invisible"))
             loadingOverlay.classList.remove("animated-invisible");
     }
 
-    /**
-     * @function
-     * @returns {void}
-     */
+    /** @returns {void} */
     function hideLoading() {
         if (!loadingOverlay.classList.contains("animated-invisible"))
             loadingOverlay.classList.add("animated-invisible");
     }
 
     /**
-     * @function
-     * @param {Number|BigInt} value
+     * @param {number|bigint} value
      * @returns {void}
      */
     function refreshProgressBar(value) {
@@ -77,25 +47,22 @@ const piCanvas = (() => {
         progressBar.style.width = `${(100 / MAX) * value}%`;
     }
 
-    /**
-     * @function
-     * @param {{ x: number; y: number; }} [from={ x: 0, y: 0 }]
-     * */
-    function draw(from = { x: 0, y: 0 }) {
+    /** @param {{ x: number; y: number; }} [from={ x: 0, y: 0 }] */
+    function draw({ x = 0, y = 0 } = {}) {
         const imageWidth = canvas.width;
         const imageHeight = canvas.height;
 
 
         setAvailable(false);
 
-        const currentOffset = offsetMan.offset;
+        const currentOffset = offset.value;
         const startTime = performance.now();
 
         const imageData = ctx.getImageData(0, 0, imageWidth, imageHeight);
 
-        for (let y = from.x; y < imageHeight; y ++) {
-            for (let x = from.x; x < imageWidth; x++) {
-                if (currentOffset != offsetMan.offset) {
+        while (y < imageHeight) {
+            while (x < imageWidth) {
+                if (currentOffset != offset.value) {
                     ctx.clearRect(0, 0, imageWidth, imageHeight);
                     return;
                 }
@@ -111,31 +78,30 @@ const piCanvas = (() => {
                     setTimeout(() => draw({ x, y }), 20);
                     return;
                 }
+                x++;
             }
+            x=0;
+            y++;
         }
         ctx.putImageData(imageData, 0, 0);
         setAvailable(true);
     }
 
-    /**
-     * @function
-     * @returns{boolean}
-     */
+    /** @returns{boolean} */
     const isAvailable = () =>
         loadingOverlay.classList.contains("animated-invisible");
 
     /**
-     * @function
      * @param {boolean} value
      * @returns {void}
      */
     const setAvailable = (value) =>
         (value == true ? hideLoading : showLoading)();
 
-    /** @function
-     *  @param {Function(number, number, number):String}
-     *  @returns{void}
-     * */
+    /**
+     * @param {Function(number, number, number):String}
+     * @returns{void}
+     */
     function refresh() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         draw();

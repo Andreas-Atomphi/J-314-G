@@ -1,6 +1,6 @@
-const piMan = (() => {
+const pi = (() => {
     /** @type {string} */
-    let _pi = "";
+    let _value = "";
     
     /** @type {bigint?} */
     let currentOffset = null;
@@ -8,14 +8,17 @@ const piMan = (() => {
     /** @type {number} */
     let piLength = piCanvas.pixelCount * 6;
     
+    /** @type {Subject} */
+    const _subject = new Subject();
+
     /** @type {string} */
     const piDeliveryUrlTemplate = "https://api.pi.delivery/v1/pi?start={0}&numberOfDigits={1}&radix=16";
 
-    /** @function @returns {Promise<void>} */
-    async function refreshPi() {
-        if (currentOffset == offsetMan.offset) return;
+    /** @returns {Promise<void>} */
+    async function refresh() {
+        if (currentOffset == offset.value) return;
         piCanvas.setAvailable(false);
-        currentOffset = offsetMan.offset;
+        currentOffset = offset.value;
         const MAX_REQUEST_LENGTH = 1000n;
         let remainingLength = BigInt(piLength);
         let requestOffset = currentOffset;
@@ -34,13 +37,14 @@ const piMan = (() => {
             }
             const data = await result.json();
             piData += data["content"];
-            piCanvas.refreshProgressBar(piData.length);
+            _subject.notifyObservers(piData.length);
         }
-        _pi = piData;
+        _value = piData;
     }
 
     return {
-        refreshPi,
-        get pi() { return _pi; },
+        refresh,
+        get subject() { return _subject; },
+        get value() { return _value; },
     };
 })();

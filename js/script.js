@@ -1,6 +1,8 @@
 async function main() {
     piCanvas.updateDrawingMethod(piDrawMethod);
-    await piMan.refreshPi();
+    pi.subject.addObserver(piCanvas.refreshProgressBar);
+    offset.subject.addObserver(pi.refresh);
+    await pi.refresh();
     setupHotkeys();
     setupButtons();
     piCanvas.draw();
@@ -28,16 +30,16 @@ function setupHotkeys() {
     document.addEventListener("keydown", (ev) => {
         const actions = {
             Enter: () =>
-                offsetMan.offset = BigInt(offsetMan.offsetView.value),
+                offset.value = BigInt(offset.view.value),
             ControlLeft: () => (ctrlPressed.left = true),
             ControlRight: () => (ctrlPressed.right = true),
             ArrowLeft() {
                 if (ctrlPressed.any() == true)
-                    offsetMan.offset -= 1;
+                    offset.value -= 1;
             },
             ArrowRight() {
                 if (ctrlPressed.any() == true)
-                    offsetMan.offset += 1;
+                    offset.value += 1;
             }
         };
         if (actions[ev.code] != null) {
@@ -47,19 +49,18 @@ function setupHotkeys() {
 }
 
 function setupButtons() {
-    /** @type {HTMLInputElement[]} */
+    /** @type {NodeListOf<Element>} */
     const offsetChangerButtons = document.querySelectorAll(".offset-changer-button");
     for(const offsetChangerButton of offsetChangerButtons){
-        offsetChangerButton.addEventListener('click', ev => {
-            offsetMan.offset += BigInt(offsetChangerButton.getAttribute("data-offset-changer"));
+        offsetChangerButton.addEventListener('click', _ev => {
+            offset.value += BigInt(offsetChangerButton.getAttribute("data-offset-changer"));
         })
     }
 }
 
 const piDrawMethod = (idx, _x, _y) => {
-    const pi = piMan.pi;
-    const digits = pi.cyclicSubstring(
-        (BigInt(idx) + offsetMan.offset) * 6n,
+    const digits = pi.value.cyclicSubstring(
+        (BigInt(idx) + offset.value) * 6n,
         6,
     );
     return Color.fromHex(digits);
