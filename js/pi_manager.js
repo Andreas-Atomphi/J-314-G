@@ -24,7 +24,7 @@ const pi = (() => {
         let requestOffset = currentOffset;
         let piData = "";
         while (remainingLength > 0) {
-            let requestLength = BigMath.min(remainingLength, MAX_REQUEST_LENGTH);
+            const requestLength = BigMath.min(remainingLength, MAX_REQUEST_LENGTH);
             requestOffset += requestLength;
             remainingLength -= requestLength;
             const result = await fetch(

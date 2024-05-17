@@ -2,6 +2,7 @@ async function main() {
     piCanvas.updateDrawingMethod(piDrawMethod);
     pi.subject.addObserver(piCanvas.refreshProgressBar);
     offset.subject.addObserver(pi.refresh);
+    offset.subject.addObserver(piCanvas.draw);
     await pi.refresh();
     setupHotkeys();
     setupButtons();

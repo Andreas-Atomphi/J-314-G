@@ -2,11 +2,11 @@
 /** @type {{HTMLInputElement, bigint}} */
 const offset = (() => {
 
-    /** @type {Subject} */
-    const _subject = new Subject();
-
     /** @type {bigint} */
     let _value = 0n;
+    
+    /** @type {AsyncSequentialSubject} */
+    const _subject = new AsyncSequentialSubject();
 
     /** @type {HTMLInputElement}*/
     const _view = document.querySelector("#offset-view");
