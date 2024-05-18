@@ -1,18 +1,19 @@
 const pi = (() => {
     /** @type {string} */
     let _value = "";
-    
+
     /** @type {bigint?} */
     let currentOffset = null;
-    
+
     /** @type {number} */
     let piLength = piCanvas.pixelCount * 6;
-    
+
     /** @type {Subject} */
     const _subject = new Subject();
 
     /** @type {string} */
-    const piDeliveryUrlTemplate = "https://api.pi.delivery/v1/pi?start={0}&numberOfDigits={1}&radix=16";
+    const piDeliveryUrlTemplate =
+        "https://api.pi.delivery/v1/pi?start={0}&numberOfDigits={1}&radix=16";
 
     /** @returns {Promise<void>} */
     async function refresh() {
@@ -24,16 +25,21 @@ const pi = (() => {
         let requestOffset = currentOffset;
         let piData = "";
         while (remainingLength > 0) {
-            const requestLength = BigMath.min(remainingLength, MAX_REQUEST_LENGTH);
+            const requestLength = BigMath.min(
+                remainingLength,
+                MAX_REQUEST_LENGTH,
+            );
             requestOffset += requestLength;
             remainingLength -= requestLength;
             const result = await fetch(
                 piDeliveryUrlTemplate
                     .replace("{0}", requestOffset)
-                    .replace("{1}", requestLength)
+                    .replace("{1}", requestLength),
             );
             if (!result.ok) {
-                throw new Error(`Can't fetch Api: ${result.status} - ${result.statusText}`);
+                throw new Error(
+                    `Can't fetch Api: ${result.status} - ${result.statusText}`,
+                );
             }
             const data = await result.json();
             piData += data["content"];
@@ -44,7 +50,11 @@ const pi = (() => {
 
     return {
         refresh,
-        get subject() { return _subject; },
-        get value() { return _value; },
+        get subject() {
+            return _subject;
+        },
+        get value() {
+            return _value;
+        },
     };
 })();

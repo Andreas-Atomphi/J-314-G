@@ -1,20 +1,26 @@
 const BigMath = Object.freeze({
-    /** 
+    /**
      * @param{bigint} value
      * @returns {bigint}
      * */
-    abs(value) { return (value < 0n ? -value : value); },
-    /** 
+    abs(value) {
+        return value < 0n ? -value : value;
+    },
+    /**
      * @param{bigint} value
      * @returns {bigint}
      * */
-    sign(value) { return (value === 0 ? 0n : value < 0n ? -1 : 1); },
-    /** 
+    sign(value) {
+        return value === 0 ? 0n : value < 0n ? -1 : 1;
+    },
+    /**
      * @param{bigint} base
      * @param{bigint} exponent
      * @returns {bigint}
      * */
-    pow(base, exponent) { return base ** exponent; },
+    pow(base, exponent) {
+        return base ** exponent;
+    },
     /**
      * @param{bigint} value
      * @param{...bigint} values
@@ -24,7 +30,7 @@ const BigMath = Object.freeze({
         for (const v of values) if (v < value) value = v;
         return value;
     },
-    /** 
+    /**
      * @param{bigint} value
      * @param{...bigint} values
      * @returns {bigint}

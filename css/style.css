@@ -19,6 +19,20 @@ header {
     top: 0;
 }
 
+.filter-sortable-list ul {
+    overflow-y: scroll;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #aaa;
+    width: 20rem;
+    height: 20rem;
+}
+
+.filter-sortable-list li {
+    cursor: grab;
+}
+
 .loading-overlay {
     position: absolute;
     display: block;
@@ -51,10 +65,11 @@ header {
     transition-duration: 0.5s;
 }
 
-.centered {
+.centered-container {
     position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .centered-content {
@@ -106,6 +121,46 @@ header {
     color: #000;
 }
 
+.progress-bar-container {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: calc(100% - 4px);
+    height: 7px;
+}
+
+.progress-bar-container div {
+    background-color: #ccf;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    transition: 100ms linear width;
+}
+
+.horizontal-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.sortable-list {
+    min-width: 10rem;
+    margin: 0 auto;
+}
+
+.filter-sortable-list .filter-clickable {
+    font-size: 1.5rem;
+    background-color: #e0e0e0;
+    border: none;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+}
+
+.filter-sortable-list .filter-clickable:hover {
+    background-color: #c0c0e0;
+}
+
 #offset-view {
     font-size: 2rem;
     color: #333;
@@ -126,6 +181,7 @@ header {
 }
 
 #p-canvas {
+    position: relative;
     display: block;
     min-width: 800px;
     background-color: #000;
@@ -140,10 +196,11 @@ header {
 }
 
 #canvas-container {
+    position: relative;
     height: min-content;
     width: min-content;
     padding: 0;
-    margin: 0;
+    margin: 0 10px 0 0;
     border-width: 20px;
     border-style: solid;
     border-top-color: #999;
@@ -152,20 +209,15 @@ header {
     border-bottom-color: #eee;
 }
 
-.progress-bar-container {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: calc(100% - 4px);
-    height: 7px;
+#btn-add-filter {
+    cursor: pointer;
+    border-bottom-right-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
+    width: 100%;
 }
 
-.progress-bar-container div {
-    background-color: #ccf;
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    transition: 100ms linear width;
+#btn-apply {
+    margin-top: 5px;
+    cursor: pointer;
+    display: block;
 }

@@ -1,5 +1,4 @@
 class Subject {
-
     constructor() {
         this._observers = new Set();
     }
@@ -15,18 +14,16 @@ class Subject {
     }
 
     /** @param {any?} [data] */
-    notifyObservers(data=null) {
-        for(const observer of this._observers) observer(data);
+    notifyObservers(data = null) {
+        for (const observer of this._observers) observer(data);
     }
 
     callObservers() {
-        for(const observer of this._observers) observer();
+        for (const observer of this._observers) observer();
     }
 }
 
-
 class AsyncSequentialSubject {
-    
     constructor() {
         this._observers = new Set();
     }
@@ -43,11 +40,10 @@ class AsyncSequentialSubject {
 
     /** @param {any?} [data] */
     async notifyObservers(data) {
-        for(const observer of this._observers) await observer(data);
+        for (const observer of this._observers) await observer(data);
     }
 
     async callObservers() {
-        for(const observer of this._observers) await observer();
+        for (const observer of this._observers) await observer();
     }
-
 }

@@ -1,3 +1,11 @@
+/**
+ * @callback drawMethod
+ * @param {int} pixelIdx
+ * @param {int} [x]
+ * @param {int} [y]
+ * @param {Color} [currentColor]
+ * @returns {Color}
+ */
 
 const piCanvas = (() => {
     /** @type {HTMLCanvasElement} */
@@ -16,15 +24,19 @@ const piCanvas = (() => {
     });
     ctx.imageSmoothingEnabled = false;
 
-    /** @type {Function(Number, [Number, Number]): Color} */
-    let _drawingMethod;
+    /** @type {Array<Function(number, [number, number, Color]): Color>} */
+    let _drawingMethods = [];
 
     /**
      * @function
-     * @param {Function(Number, Number, Number): Color}
+     * @param {Function(number, [number, number, Color]): Color}
      * @returns {void}
      */
-    const updateDrawingMethod = (callback) => (_drawingMethod = callback);
+    const addDrawingMethod = (callback) => _drawingMethods.push(callback);
+    function removeDrawingMethod(callback) {
+        const index = _drawingMethods.indexOf(callback);
+        if (index > 0) _drawingMethods.splice(index, 1);
+    }
 
     /** @returns {void} */
     function showLoading() {
@@ -52,7 +64,6 @@ const piCanvas = (() => {
         const imageWidth = canvas.width;
         const imageHeight = canvas.height;
 
-
         setAvailable(false);
 
         const currentOffset = offset.value;
@@ -67,7 +78,12 @@ const piCanvas = (() => {
                     return;
                 }
                 const pixelIdx = imageWidth * y + x;
-                const pixelColor = _drawingMethod(pixelIdx, x, y);
+                const pixelColor = Color.fromHex("000000").apply((color) => {
+                    for (const fn of _drawingMethods) {
+                        color = fn(pixelIdx, x, y, color);
+                    }
+                    return color;
+                });
                 const pixelIdxColor = pixelIdx * 4;
                 imageData.data[pixelIdxColor] = pixelColor.r;
                 imageData.data[pixelIdxColor + 1] = pixelColor.g;
@@ -80,7 +96,7 @@ const piCanvas = (() => {
                 }
                 x++;
             }
-            x=0;
+            x = 0;
             y++;
         }
         ctx.putImageData(imageData, 0, 0);
@@ -111,16 +127,29 @@ const piCanvas = (() => {
         loadingOverlay,
         ctx,
         draw,
-        set width(value) { canvas.width = value; },
-        get width() { return canvas.width; },
-        set height(value) { canvas.height = value },
-        get height() { return canvas.height; },
-        get pixelCount() { return this.width * this.height; },
+        set width(value) {
+            canvas.width = value;
+        },
+        get width() {
+            return canvas.width;
+        },
+        set height(value) {
+            canvas.height = value;
+        },
+        get height() {
+            return canvas.height;
+        },
+        get pixelCount() {
+            return this.width * this.height;
+        },
         setAvailable,
         isAvailable,
         refresh,
-        updateDrawingMethod,
-        get drawingMethod() { return _drawingMethod; },
+        addDrawingMethod,
+        get drawingMethods() {
+            return Array.from(_drawingMethods);
+        },
+        removeDrawingMethod,
         refreshProgressBar,
     };
 })();

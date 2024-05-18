@@ -60,4 +60,23 @@ class Color {
         this.g = Math.max(0, Math.min(255, this.g));
         this.b = Math.max(0, Math.min(255, this.b));
     }
+
+    inverse() {
+        this.r = 255 - this.r;
+        this.g = 255 - this.g;
+        this.b = 255 - this.b;
+        return this;
+    }
+
+    toBlackAndWhite() {
+        const gray = 0.3 * this.r + 0.59 * this.g + 0.11 * this.b;
+        const bw = gray > 128 ? 255 : 0; // Threshold for black or white
+        this.r = this.g = this.b = bw;
+        return this; // Allow chaining
+    }
+
+    /** @param {Function(Color):Color} pipelineFn */
+    apply(pipelineFn) {
+        return pipelineFn(this);
+    }
 }

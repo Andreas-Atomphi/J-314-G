@@ -7,8 +7,18 @@
         <script type="text/javascript" src="js/color.js" defer></script>
         <script type="text/javascript" src="js/observer.js" defer></script>
         <script type="text/javascript" src="js/utils.js" defer></script>
+        <script
+            type="text/javascript"
+            src="js/filter_manager.js"
+            defer
+        ></script>
+        <script type="text/javascript" src="js/filters.js" defer></script>
         <script type="text/javascript" src="js/canvas_setup.js" defer></script>
-        <script type="text/javascript" src="js/offset_manager.js" defer></script>
+        <script
+            type="text/javascript"
+            src="js/offset_manager.js"
+            defer
+        ></script>
         <script type="text/javascript" src="js/pi_manager.js" defer></script>
         <script type="text/javascript" src="js/script.js" defer></script>
     </head>
@@ -18,24 +28,45 @@
         </header>
         <div style="height: 15px"></div>
         <div class="content">
-            <div id="canvas-container" class="centered">
-                <canvas id="p-canvas" width="160" height="90"></canvas>
-                <div class="loading-overlay animated-invisible">
-                    <div class="progress-bar-container">
-                        <div></div>
+            <div class="horizontal-container centered-container">
+                <div id="canvas-container">
+                    <canvas id="p-canvas" width="160" height="90"></canvas>
+                    <div class="loading-overlay animated-invisible">
+                        <div class="progress-bar-container">
+                            <div></div>
+                        </div>
+                        <div class="lds-roller">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
                     </div>
-                    <div class="lds-roller">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                </div>
+                <div class="filter-sortable-list">
+                    <h3>Filters</h3>
+                    <ul id="sortable"></ul>
+                    <div>
+                        <input
+                            type="button"
+                            value="Add filter"
+                            id="btn-add-filter"
+                            class="filter-clickable"
+                        />
+                        <input
+                            type="button"
+                            value="Apply"
+                            id="btn-apply"
+                            class="filter-clickable"
+                        />
                     </div>
                 </div>
             </div>
+
             <div style="height: 30px"></div>
             <div class="centered centered-content">
                 <label for="width-setting" class="label">Width</label>
