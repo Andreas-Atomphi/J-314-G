@@ -24,18 +24,17 @@ const piCanvas = (() => {
     });
     ctx.imageSmoothingEnabled = false;
 
-    /** @type {Array<Function(number, [number, number, Color]): Color>} */
-    let _drawingMethods = [];
+    /** @type {drawMethod} */
+    let _drawingMethod;
 
     /**
      * @function
-     * @param {Function(number, [number, number, Color]): Color}
+     * @param {drawMethod} callback
      * @returns {void}
      */
-    const addDrawingMethod = (callback) => _drawingMethods.push(callback);
-    function removeDrawingMethod(callback) {
-        const index = _drawingMethods.indexOf(callback);
-        if (index > 0) _drawingMethods.splice(index, 1);
+    const updateDrawingMethod = (callback) => (_drawingMethod = callback);
+    function eraseDrawingMethod() {
+        callback = null;
     }
 
     /** @returns {void} */
@@ -78,12 +77,14 @@ const piCanvas = (() => {
                     return;
                 }
                 const pixelIdx = imageWidth * y + x;
-                const pixelColor = Color.fromHex("000000").apply((color) => {
-                    for (const fn of _drawingMethods) {
-                        color = fn(pixelIdx, x, y, color);
-                    }
-                    return color;
-                });
+                const pixelColor = _drawingMethod(pixelIdx, x, y).apply(
+                    (color) => {
+                        for (const fn of filter_manager.usingFilters) {
+                            color = fn(pixelIdx, x, y, color);
+                        }
+                        return color;
+                    },
+                );
                 const pixelIdxColor = pixelIdx * 4;
                 imageData.data[pixelIdxColor] = pixelColor.r;
                 imageData.data[pixelIdxColor + 1] = pixelColor.g;
@@ -145,11 +146,11 @@ const piCanvas = (() => {
         setAvailable,
         isAvailable,
         refresh,
-        addDrawingMethod,
-        get drawingMethods() {
-            return Array.from(_drawingMethods);
+        updateDrawingMethod,
+        get drawingMethod() {
+            return _drawingMethod;
         },
-        removeDrawingMethod,
+        eraseDrawingMethod,
         refreshProgressBar,
     };
 })();

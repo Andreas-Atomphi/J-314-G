@@ -64,3 +64,14 @@ Object.defineProperty(String.prototype, "cyclicSubstring", {
     writable: true,
     configurable: true,
 });
+
+Object.defineProperty(HTMLElement.prototype, "clearChildren", {
+    /** @returns {void} */
+    value: function () {
+        while (this.firstChild) {
+            this.firstChild.remove();
+        }
+    },
+    writable: true,
+    configurable: true,
+});

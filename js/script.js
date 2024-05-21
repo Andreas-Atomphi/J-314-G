@@ -1,9 +1,10 @@
 async function main() {
-    piCanvas.addDrawingMethod(piDrawMethod);
+    piCanvas.updateDrawingMethod(piDrawMethod);
     pi.subject.addObserver(piCanvas.refreshProgressBar);
     offset.subject.addObserver(pi.refresh);
     offset.subject.addObserver(piCanvas.draw);
     await pi.refresh();
+    filter_manager.subject.addObserver(piCanvas.refresh);
     setupHotkeys();
     setupButtons();
     piCanvas.draw();
