@@ -8,7 +8,7 @@ const offset = (() => {
 
     /** @type {HTMLInputElement}*/
     const _view = document.querySelector("#offset-view");
-    _view.addEventListener("change", () => (_value = _view.value));
+    _view.addEventListener("change", () => (_value = BigInt(_view.value)));
 
     return {
         get view() {

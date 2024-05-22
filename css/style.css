@@ -182,6 +182,15 @@ header {
 
 #btn-add-filter {
     cursor: pointer;
-    border-bottom-right-radius: 1.5rem;
-    border-bottom-left-radius: 1.5rem;
+}
+
+#filter-sortable-list-container .sortable-list {
+    overflow-y: auto;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#filter-sortable-list-container li {
+    cursor: grab;
 }

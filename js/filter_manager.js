@@ -7,8 +7,25 @@ class Filter {
         this.callback = callback;
     }
 
+    /**
+     * @method toHtmlElement
+     * @returns {HTMLLIElement}
+     * */
     toHtmlElement() {
-        return `<li draggable="true">${this.name}</li>`;
+        /** @type {HTMLLIElement} */
+        const filterViewItem = document.createElement("li");
+        filterViewItem.classList.add(
+            "sortable-list-button",
+            "sortable-list-item",
+        );
+        filterViewItem.draggable = true;
+
+        /** @type {HTMLSpanElement} */
+        const text = document.createElement("span");
+        text.textContent = this.name;
+
+        filterViewItem.appendChild(text);
+        return filterViewItem;
     }
 }
 
@@ -22,14 +39,15 @@ const filter_manager = (() => {
      * */
     const _usableFilters = [];
 
-    /** @type {drawMethod[]} */
+    /** @type {Filter[]} */
     let _usingFilters = [];
 
     /**
      * @type {HTMLUListElement}
      * @private
      * */
-    const _view = document.querySelector("#filter-list-view");
+    const _usingView = document.querySelector("#using-filter-list");
+    const _usableView = document.querySelector("#usable-filter-list");
 
     return {
         /**
@@ -40,13 +58,16 @@ const filter_manager = (() => {
         subscribeFilter(name, callback) {
             if (_usableFilters.some((e, _index, _arr) => e.name == name))
                 return;
-            _usableFilters.push(new Filter(name, callback));
+            const filter = new Filter(name, callback)
+            _usableFilters.push(filter);
+            _usableView.appendChild(filter.toHtmlElement());
+            
         },
         get usableFilters() {
             return Array.from(_usableFilters);
         },
         get view() {
-            return _view;
+            return _usingView;
         },
         get subject() {
             return _subject;
@@ -59,31 +80,25 @@ const filter_manager = (() => {
          * @returns {void}
          * */
         apply() {
-            if (_view.firstChild == null) {
+            if (_usingView.firstChild == null) {
                 _usingFilters = [];
                 return;
             }
-            _usingFilters = [..._view.childNodes];
-            _view.clearChildren();
+            _usingFilters = [..._usingView.childNodes].map(
+                (view, _index, _arr) => _usableFilters.find(
+                    (value, _index, _arr) => value.name.toLowerCase() == view.textContent.toLowerCase()
+                )
+            );
+            _usingView.clearChildren();
             for (const filter of _usingFilters) {
-                const filterViewItem = new HTMLLIElement();
-                filterViewItem.classList.add(
-                    "sortable-list-button",
-                    "sortable-list-item",
-                );
-                filterViewItem.draggable = true;
-
-                const gripDots = new HTMLSpanElement();
+                /** @type {HTMLSpanElement} */
+                const gripDots = document.createElement("span");
                 gripDots.classList.add("grippy");
-
-                const text = new HTMLSpanElement();
-                text.textContent = filter.name;
-
-                filterViewItem.appendChild(gripDots);
-                filterViewItem.appendChild(text);
-
-                _view.appendChild(filterViewItem);
+                const filterHtmlElement = filter.toHtmlElement();
+                filterHtmlElement.prepend(gripDots);
+                _usingView.appendChild(filterHtmlElement);
             }
+            _subject.callObservers();
         },
     };
 })();

@@ -43,7 +43,7 @@
         <div style="height: 15px"></div>
         <div class="popup"></div>
         <div class="container justify-content-center">
-            <div class="row">
+            <div class="row" style="height: calc(min-content + 10px)">
                 <div clas="col-lg" id="canvas-container">
                     <canvas id="p-canvas" width="160" height="90"></canvas>
                     <div class="loading-overlay animated-invisible">
@@ -64,25 +64,40 @@
                 </div>
                 <div class="col-sm" id="filter-sortable-list-container">
                     <div class="row">
-                        <h3>Filters</h3>    
+                        <h3>Filters</h3>
                     </div>
-                    <div class="row">
-                        <ul class="container-sm sortable-list"></ul>
-                    </div> 
-                    <div class="row">
-                        <input
-                            type="button"
-                            value="Add filter"
-                            id="btn-add-filter"
-                            class="btn btn-md-2 btn-secondary mb-1"
-                        />
-                    </div>
-                    <div class="row">
-                        <input
-                            type="button"
-                            value="Apply"
-                            class="btn btn-primary"
-                        />
+                    <div class="row gap-2" style="height: 19rem">
+                        <div class="col h-100 mr-1">
+                            <div class="row h-100 mb-1">
+                                <ul
+                                    id="using-filter-list"
+                                    class="sortable-list h-100 bg-dark-subtle rounded overflow-y-auto"
+                                ></ul>
+                            </div>
+                            <div class="row">
+                                <input
+                                    type="button"
+                                    value="Apply"
+                                    class="btn btn-primary"
+                                />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row mb-1 h-100">
+                                <ul
+                                    id="usable-filter-list"
+                                    class="bg-dark-subtle rounded h-100 overflow-y-auto"
+                                ></ul>
+                            </div>
+                            <div class="row">
+                                <input
+                                    type="button"
+                                    value="Add filter"
+                                    id="btn-add-filter"
+                                    class="btn btn-md-2 btn-secondary"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
