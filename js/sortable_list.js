@@ -45,7 +45,7 @@ const sortableListMutationObserver = new MutationObserver(
         const mutation = mutationsList.find(
             (value) => value.type == "childList",
         );
-        if (mutation == null || mutation == undefined) return;
+        if (mutation == undefined) return;
         for (const node of mutation.addedNodes) {
             if (node.nodeType == 1) continue;
             setupDraggableItem(node);

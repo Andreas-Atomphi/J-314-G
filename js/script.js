@@ -4,7 +4,7 @@ async function main() {
     offset.subject.addObserver(pi.refresh);
     offset.subject.addObserver(piCanvas.draw);
     await pi.refresh();
-    filter_manager.subject.addObserver(piCanvas.refresh);
+    filterManager.applySubject.addObserver(piCanvas.refresh);
     setupHotkeys();
     setupButtons();
     piCanvas.draw();

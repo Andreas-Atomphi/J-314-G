@@ -10,7 +10,6 @@
         />
         <link type="text/css" rel="stylesheet" href="css/style.css" />
         <link type="text/css" rel="stylesheet" href="css/indicator.css" />
-        <link type="text/css" rel="stylesheet" href="css/sortable_list.css" />
         <script type="text/javascript" src="js/color.js" defer></script>
         <script type="text/javascript" src="js/observer.js" defer></script>
         <script type="text/javascript" src="js/utils.js" defer></script>
@@ -19,6 +18,7 @@
             src="js/filter_manager.js"
             defer
         ></script>
+        <script type="text/javascript" src="js/filter_view_manager.js" defer></script>
         <script type="text/javascript" src="js/filters.js" defer></script>
         <script type="text/javascript" src="js/canvas_setup.js" defer></script>
         <script
@@ -71,7 +71,7 @@
                             <div class="row h-100 mb-1">
                                 <ul
                                     id="using-filter-list"
-                                    class="sortable-list h-100 bg-dark-subtle rounded overflow-y-auto"
+                                    class="sortable-list h-100 bg-dark-subtle rounded overflow-y-auto list-group"
                                 ></ul>
                             </div>
                             <div class="row">
@@ -79,6 +79,7 @@
                                     type="button"
                                     value="Apply"
                                     class="btn btn-primary"
+                                    onclick="filterViewManager.apply()"
                                 />
                             </div>
                         </div>
@@ -86,7 +87,7 @@
                             <div class="row mb-1 h-100">
                                 <ul
                                     id="usable-filter-list"
-                                    class="bg-dark-subtle rounded h-100 overflow-y-auto"
+                                    class="bg-dark-subtle rounded h-100 overflow-y-auto list-group"
                                 ></ul>
                             </div>
                             <div class="row">
@@ -95,6 +96,7 @@
                                     value="Add filter"
                                     id="btn-add-filter"
                                     class="btn btn-md-2 btn-secondary"
+                                    onclick="filterViewManager.addUsingFilter()"
                                 />
                             </div>
                         </div>

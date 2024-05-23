@@ -179,18 +179,3 @@ header {
     border-right-color: #bbb;
     border-bottom-color: #eee;
 }
-
-#btn-add-filter {
-    cursor: pointer;
-}
-
-#filter-sortable-list-container .sortable-list {
-    overflow-y: auto;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-#filter-sortable-list-container li {
-    cursor: grab;
-}

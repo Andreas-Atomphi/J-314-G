@@ -79,8 +79,13 @@ const piCanvas = (() => {
                 const pixelIdx = imageWidth * y + x;
                 const pixelColor = _drawingMethod(pixelIdx, x, y).apply(
                     (color) => {
-                        for (const fn of filter_manager.usingFilters) {
-                            color = fn(pixelIdx, x, y, color);
+                        for (const filterIdx of filterManager.usingFiltersIndexes) {
+                            color = filterManager.usableFilters[filterIdx].callback(
+                                pixelIdx,
+                                x,
+                                y,
+                                color,
+                            );
                         }
                         return color;
                     },

@@ -9,29 +9,33 @@ class Filter {
 
     /**
      * @method toHtmlElement
-     * @returns {HTMLLIElement}
+     * @returns {HTMLInputElement}
      * */
     toHtmlElement() {
         /** @type {HTMLLIElement} */
         const filterViewItem = document.createElement("li");
         filterViewItem.classList.add(
-            "sortable-list-button",
-            "sortable-list-item",
+            "list-group-item",
+            "list-group-item-action",
         );
-        filterViewItem.draggable = true;
+        const inputButton = document.createElement("input");
+        inputButton.classList.add("btn-check");
+        inputButton.type = "radio";
 
-        /** @type {HTMLSpanElement} */
-        const text = document.createElement("span");
-        text.textContent = this.name;
+        const label = document.createElement("label");
+        label.textContent = this.name;
 
-        filterViewItem.appendChild(text);
+        filterViewItem.appendChild(inputButton);
+        filterViewItem.appendChild(label);
+
         return filterViewItem;
     }
 }
 
-const filter_manager = (() => {
+const filterManager = (() => {
     /** @type {Subject} */
-    const _subject = new Subject();
+    const _applySubject = new Subject();
+    const _readySubject = new Subject();
 
     /**
      * @type{Filter[]}
@@ -42,63 +46,69 @@ const filter_manager = (() => {
     /** @type {Filter[]} */
     let _usingFilters = [];
 
-    /**
-     * @type {HTMLUListElement}
-     * @private
-     * */
-    const _usingView = document.querySelector("#using-filter-list");
-    const _usableView = document.querySelector("#usable-filter-list");
-
     return {
         /**
-         * @method subscribeFilter
+         * @function setupFilterFunction
          * @param {string} name
          * @param {drawMethod} callback
+         * */
+        /**
+         * @method setupFilters
+         * @param {setupFilterFunction} setup
          */
-        subscribeFilter(name, callback) {
-            if (_usableFilters.some((e, _index, _arr) => e.name == name))
-                return;
-            const filter = new Filter(name, callback)
-            _usableFilters.push(filter);
-            _usableView.appendChild(filter.toHtmlElement());
-            
+        setupFilters(setup) {
+            setup((name, callback) => {
+                if (_usableFilters.some((e, _index, _arr) => e.name == name))
+                    return;
+                const filter = new Filter(name, callback);
+                _usableFilters.push(filter);
+            });
+            _readySubject.callObservers();
+        },
+        /**
+         * @method getFilter
+         * @param {int} idx
+         * @returns {drawMethod}
+         * */
+        getFilter(idx) {
+            console.log(this.usableFilters);
+            console.log(idx);
+            console.log(_usingFilters[idx]);
+            console.log(_usableFilters[idx]);
+            return _usableFilters[_usingFilters[idx]].callback;
+        },
+        get usingFiltersIndexes(){
+            return Array.from(_usingFilters);
         },
         get usableFilters() {
             return Array.from(_usableFilters);
         },
-        get view() {
-            return _usingView;
+        get applySubject() {
+            return _applySubject;
         },
-        get subject() {
-            return _subject;
-        },
-        get usingFilters() {
-            return _usingFilters;
+        get readySubject() {
+            return _readySubject;
         },
         /**
          * @method apply
+         * @param {string[]} filterNames
          * @returns {void}
          * */
-        apply() {
-            if (_usingView.firstChild == null) {
+        refreshUsing(filterNames = []) {
+            if (filterNames == null) {
                 _usingFilters = [];
+                _applySubject.callObserver();
                 return;
             }
-            _usingFilters = [..._usingView.childNodes].map(
-                (view, _index, _arr) => _usableFilters.find(
-                    (value, _index, _arr) => value.name.toLowerCase() == view.textContent.toLowerCase()
-                )
+            _usingFilters = filterNames.map(
+                (name, _index, _arr) =>
+                    _usableFilters.findIndex(
+                        (value, _index, _arr) =>
+                            value.name.toLowerCase() ==
+                            name.toLowerCase(),
+                    ),
             );
-            _usingView.clearChildren();
-            for (const filter of _usingFilters) {
-                /** @type {HTMLSpanElement} */
-                const gripDots = document.createElement("span");
-                gripDots.classList.add("grippy");
-                const filterHtmlElement = filter.toHtmlElement();
-                filterHtmlElement.prepend(gripDots);
-                _usingView.appendChild(filterHtmlElement);
-            }
-            _subject.callObservers();
+            _applySubject.callObservers();
         },
     };
 })();

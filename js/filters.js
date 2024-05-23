@@ -1,10 +1,10 @@
-filter_manager.subscribeFilter("inverse", (_idx, _x, _y, currentColor) => {
-    return currentColor.inverse();
-});
+filterManager.readySubject.addObserver(filterViewManager.refreshUsableView);
 
-filter_manager.subscribeFilter(
-    "black and white",
-    (_idx, _x, _y, currentColor) => {
+filterManager.setupFilters((subscribeFilter) => {
+    subscribeFilter("inverse", (_idx, _x, _y, currentColor) => {
+        return currentColor.inverse();
+    });
+    subscribeFilter("black and white", (_idx, _x, _y, currentColor) => {
         return currentColor.toBlackAndWhite();
-    },
-);
+    });
+});
