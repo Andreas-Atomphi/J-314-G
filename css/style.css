@@ -179,3 +179,11 @@ header {
     border-right-color: #bbb;
     border-bottom-color: #eee;
 }
+
+#filter-lists-container .list-group-item{
+    width: 100% !important;
+}
+
+#filter-lists-container .list-group {
+    padding: 0;
+}

@@ -16,7 +16,7 @@ class Filter {
         const filterViewItem = document.createElement("li");
         filterViewItem.classList.add(
             "list-group-item",
-            "list-group-item-action",
+            "list-group-item-action"
         );
         const inputButton = document.createElement("input");
         inputButton.classList.add("btn-check");
@@ -71,13 +71,9 @@ const filterManager = (() => {
          * @returns {drawMethod}
          * */
         getFilter(idx) {
-            console.log(this.usableFilters);
-            console.log(idx);
-            console.log(_usingFilters[idx]);
-            console.log(_usableFilters[idx]);
             return _usableFilters[_usingFilters[idx]].callback;
         },
-        get usingFiltersIndexes(){
+        get usingFiltersIndexes() {
             return Array.from(_usingFilters);
         },
         get usableFilters() {
@@ -100,13 +96,11 @@ const filterManager = (() => {
                 _applySubject.callObserver();
                 return;
             }
-            _usingFilters = filterNames.map(
-                (name, _index, _arr) =>
-                    _usableFilters.findIndex(
-                        (value, _index, _arr) =>
-                            value.name.toLowerCase() ==
-                            name.toLowerCase(),
-                    ),
+            _usingFilters = filterNames.map((name, _index, _arr) =>
+                _usableFilters.findIndex(
+                    (value, _index, _arr) =>
+                        value.name.toLowerCase() == name.toLowerCase()
+                )
             );
             _applySubject.callObservers();
         },

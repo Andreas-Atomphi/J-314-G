@@ -75,3 +75,7 @@ Object.defineProperty(HTMLElement.prototype, "clearChildren", {
     writable: true,
     configurable: true,
 });
+
+function clamp(num, min, max) {
+    return num <= min ? min : num >= max ? max : num;
+}
