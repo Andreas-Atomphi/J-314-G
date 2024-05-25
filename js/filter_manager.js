@@ -1,10 +1,11 @@
 class Filter {
-    constructor(name, callback) {
+    constructor(name, callback, logicalShader = false) {
         /** @type {string} */
         this.name = name;
 
         /** @type {Function(number, [number, number, Color]):Color} */
         this.callback = callback;
+        this.logicalShader = logicalShader;
     }
 
     /**
@@ -86,7 +87,7 @@ const filterManager = (() => {
             return _readySubject;
         },
         /**
-         * @method apply
+         * @method refreshUsing
          * @param {string[]} filterNames
          * @returns {void}
          * */

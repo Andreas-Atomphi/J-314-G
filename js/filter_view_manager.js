@@ -4,7 +4,6 @@ const filterViewManager = (() => {
      * @private
      * */
     const _usingView = document.querySelector("#using-filter-list");
-
     /**
      * @type {HTMLUListElement}
      * @private
@@ -92,10 +91,11 @@ const filterViewManager = (() => {
         addUsingFilter() {
             if (_usableFocused < 0) return;
             if (_usableFocused >= filterManager.usableFilters.length) return;
+
             _usingView.appendChild(usingFilterViewItem(_usableFocused));
         },
         apply() {
-            const names = Array.from(_usingView.childNodes).map(
+            const names = Utils.getElementChildNodes(_usingView).map(
                 (value, _index, _arr) => value.lastChild.textContent
             );
             filterManager.refreshUsing(names);
@@ -105,7 +105,7 @@ const filterViewManager = (() => {
          * @param {int} direction
          */
         moveUsingView(direction) {
-            const childNodes = _usingView.childNodes;
+            const childNodes = Utils.getElementChildNodes(_usingView);
             const indexSet = _usingFocused + direction;
             if (indexSet < 0 || indexSet >= childNodes.length || direction == 0)
                 return;
@@ -141,14 +141,27 @@ const filterViewManager = (() => {
             _usingFocused = targetIndex;
         },
         removeUsingView() {
-            if (!_usingView.hasChildNodes()) return;
             if (
-                _usingFocused < 0 ||
-                _usableFocused >= _usingView.childNodes.length
+                !Array.from(_usingView.childNodes).some(
+                    (value, _index, _arr) => value.nodeType == "1"
+                )
             )
                 return;
-            _usingView.childNodes[_usingFocused].remove();
-            clamp(_usingFocused, 0, _usingView.childNodes.length);
+            /** @type{ChildNode[]} */
+            let childNodes = Utils.getElementChildNodes(_usingView);
+            if (_usingFocused < 0 || _usingFocused > childNodes.length) return;
+            childNodes[_usingFocused].remove();
+            childNodes = Utils.getElementChildNodes(_usingView);
+            if (childNodes.length <= 0) {
+                _usingFocused = 0;
+                return;
+            }
+            _usingFocused = Utils.clamp(
+                _usingFocused,
+                0,
+                childNodes.length - 1
+            );
+            childNodes[_usingFocused].classList.add("active");
         },
     };
 })();

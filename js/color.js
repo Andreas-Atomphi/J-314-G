@@ -6,6 +6,10 @@ class Color {
         this.a = a;
     }
 
+    static all(c, a = 1) {
+        return new Color(c, c, c, 1);
+    }
+
     static fromHex(hexString) {
         if (hexString.startsWith("#")) {
             hexString = hexString.slice(1);
@@ -59,20 +63,6 @@ class Color {
         this.r = Math.max(0, Math.min(255, this.r));
         this.g = Math.max(0, Math.min(255, this.g));
         this.b = Math.max(0, Math.min(255, this.b));
-    }
-
-    inverse() {
-        this.r = 255 - this.r;
-        this.g = 255 - this.g;
-        this.b = 255 - this.b;
-        return this;
-    }
-
-    toBlackAndWhite() {
-        const gray = 0.3 * this.r + 0.59 * this.g + 0.11 * this.b;
-        const bw = gray > 128 ? 255 : 0; // Threshold for black or white
-        this.r = this.g = this.b = bw;
-        return this; // Allow chaining
     }
 
     /** @param {Function(Color):Color} pipelineFn */

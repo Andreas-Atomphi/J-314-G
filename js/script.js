@@ -3,7 +3,7 @@ async function main() {
     pi.subject.addObserver(piCanvas.refreshProgressBar);
     offset.subject.addObserver(pi.refresh);
     offset.subject.addObserver(piCanvas.draw);
-    await pi.refresh();
+    if (pi.value != null && pi.value == "") await pi.refresh();
     filterManager.applySubject.addObserver(piCanvas.refresh);
     setupHotkeys();
     setupButtons();
@@ -50,12 +50,12 @@ function setupHotkeys() {
 function setupButtons() {
     /** @type {NodeListOf<Element>} */
     const offsetChangerButtons = document.querySelectorAll(
-        ".offset-changer-button",
+        ".offset-changer-button"
     );
     for (const offsetChangerButton of offsetChangerButtons) {
         offsetChangerButton.addEventListener("click", (_ev) => {
             offset.value += BigInt(
-                offsetChangerButton.getAttribute("data-offset-changer"),
+                offsetChangerButton.getAttribute("data-offset-changer")
             );
         });
     }
@@ -71,7 +71,7 @@ function setupButtons() {
 const piDrawMethod = (idx, _x, _y, _currentColor = new Color(0, 0, 0)) => {
     const digits = pi.value.cyclicSubstring(
         (BigInt(idx) + offset.value) * 6n,
-        6,
+        6
     );
     return Color.fromHex(digits);
 };

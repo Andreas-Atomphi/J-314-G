@@ -1,6 +1,9 @@
 const pi = (() => {
     /** @type {string} */
     let _value = "";
+    const piStorageKey = "previousPI";
+    const previousPi = localStorage.getItem(piStorageKey);
+    if (previousPi != null && previousPi != "") _value = previousPi;
 
     /** @type {bigint?} */
     let currentOffset = null;
@@ -27,18 +30,18 @@ const pi = (() => {
         while (remainingLength > 0) {
             const requestLength = BigMath.min(
                 remainingLength,
-                MAX_REQUEST_LENGTH,
+                MAX_REQUEST_LENGTH
             );
             requestOffset += requestLength;
             remainingLength -= requestLength;
             const result = await fetch(
                 piDeliveryUrlTemplate
                     .replace("{0}", requestOffset)
-                    .replace("{1}", requestLength),
+                    .replace("{1}", requestLength)
             );
             if (!result.ok) {
                 throw new Error(
-                    `Can't fetch Api: ${result.status} - ${result.statusText}`,
+                    `Can't fetch Api: ${result.status} - ${result.statusText}`
                 );
             }
             const data = await result.json();
@@ -46,6 +49,7 @@ const pi = (() => {
             _subject.notifyObservers(piData.length);
         }
         _value = piData;
+        localStorage.setItem(piStorageKey, _value);
     }
 
     return {

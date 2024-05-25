@@ -80,15 +80,12 @@ const piCanvas = (() => {
                 const pixelColor = _drawingMethod(pixelIdx, x, y).apply(
                     (color) => {
                         for (const filterIdx of filterManager.usingFiltersIndexes) {
-                            color = filterManager.usableFilters[filterIdx].callback(
-                                pixelIdx,
-                                x,
-                                y,
-                                color,
-                            );
+                            color = filterManager.usableFilters[
+                                filterIdx
+                            ].callback(pixelIdx, x, y, color);
                         }
                         return color;
-                    },
+                    }
                 );
                 const pixelIdxColor = pixelIdx * 4;
                 imageData.data[pixelIdxColor] = pixelColor.r;
@@ -121,12 +118,25 @@ const piCanvas = (() => {
         (value == true ? hideLoading : showLoading)();
 
     /**
-     * @param {Function(number, number, number):String}
      * @returns{void}
      */
     function refresh() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         draw();
+    }
+
+    /**
+     * @function
+     */
+    function getColorAt(x, y) {
+        /** @type {ImageData} */
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const prefix = (canvas.height * y + x) * 4;
+        return new Color(
+            imageData[prefix],
+            imageData[prefix + 1],
+            imageData[prefix + 2]
+        );
     }
 
     return {
@@ -157,5 +167,6 @@ const piCanvas = (() => {
         },
         eraseDrawingMethod,
         refreshProgressBar,
+        getColorAt,
     };
 })();
